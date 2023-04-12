@@ -1,12 +1,15 @@
 import React from "react";
-import Button from "./Button";
+import Box from "./Box";
+import "./Board.css";
 
-const Board = ({board}) => {
+const Board = ({ board, onClick }) => {
   return (
     <div>
-      {board.map(n => <Button />)}
+      {board.map((value, i) => (
+        <Box id={i} value={value} onClick={onClick} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export default Board;
