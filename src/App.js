@@ -6,6 +6,7 @@ import "./App.css";
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isX, setIsX] = useState(true);
+  const [score, setScore] = useState({ x: 0, o: 0 });
 
   const WIN_CONDITION = [
     [0, 1, 2],
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <div className="App">
+      <Scores score={score} />
       <Board board={board} onClick={handleClick} />
       <button className="reset" onClick={() => setBoard(Array(9).fill(null))}>
         {" "}
