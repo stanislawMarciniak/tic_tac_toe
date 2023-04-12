@@ -4,9 +4,9 @@ import "./Board.css";
 
 const Board = ({ board, onClick }) => {
   return (
-    <div>
+    <div className="board">
       {board.map((value, i) => (
-        <Box id={i} value={value} onClick={onClick} />
+        <Box key={i} id={i} value={value} onClick={onClick} />
       ))}
     </div>
   );

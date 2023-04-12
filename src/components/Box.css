@@ -16,3 +16,11 @@
 .box:hover {
   box-shadow: 0 0 16px #888;
 }
+
+.x {
+  color: red
+}
+
+.o {
+  color: blue
+}
