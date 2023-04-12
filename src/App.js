@@ -30,12 +30,12 @@ function App() {
 
   const handleClick = (id) => {
     let value = isX ? "X" : "O";
-    const clicked = board.map((n, index) =>
-      index === id ? (n = value) : (n = n)
-    );
+    const clicked = board.map((n, index) => (index === id ? value : n));
     setBoard(clicked);
     if (checkWin()) {
-      console.log("win");
+      setScore(
+        !isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
+      );
       setBoard(Array(9).fill(null));
     }
     setIsX(!isX);
@@ -43,11 +43,10 @@ function App() {
 
   return (
     <div className="App">
-      <Scores score={score} />
+      <Scores score={score} isX={isX} />
       <Board board={board} onClick={handleClick} />
       <button className="reset" onClick={() => setBoard(Array(9).fill(null))}>
-        {" "}
-        Reset{" "}
+        Reset
       </button>
     </div>
   );

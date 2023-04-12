@@ -1,10 +1,15 @@
 import React from "react";
 import "./Scores.css";
 
-const Scores = ({ score }) => {
+const Scores = ({ score, isX }) => {
   return (
-    <div>
-      X - {score.x} O - {score.o}
+    <div className="scores">
+      <span className={`score x-score ${!isX && "inactive"}`}>
+        X - {score.x}
+      </span>
+      <span className={`score o-score ${isX && "inactive"}`}>
+        O - {score.o}
+      </span>
     </div>
   );
 };
