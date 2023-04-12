@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "./components/Board";
+import Scores from "./components/Scores";
 import "./App.css";
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
     setBoard(clicked);
     if (checkWin()) {
       console.log("win");
-      setBoard(board.fill(null));
+      setBoard(Array(9).fill(null));
     }
     setIsX(!isX);
   };
@@ -42,6 +43,10 @@ function App() {
   return (
     <div className="App">
       <Board board={board} onClick={handleClick} />
+      <button className="reset" onClick={() => setBoard(Array(9).fill(null))}>
+        {" "}
+        Reset{" "}
+      </button>
     </div>
   );
 }

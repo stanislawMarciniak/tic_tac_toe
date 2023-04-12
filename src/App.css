@@ -6,4 +6,23 @@ body {
   margin: 0;
   background-color: #efefef;
   font-family: "Fredoka", sans-serif;
+  text-align: center;
+
+}
+
+.reset {
+  font-size: larger;
+  font-weight: bold;
+  box-shadow: 0 0 5px #888;
+  width: 7rem;
+  height: 2rem;
+  margin-top: 0.75rem;
+  border: none;
+  border-radius: 7px;
+  background-color:aqua;
+  color: #efefef;
+}
+
+.reset:hover {
+  box-shadow: 0 0 10px #888;
 }
