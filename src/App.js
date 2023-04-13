@@ -7,6 +7,7 @@ function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isX, setIsX] = useState(false);
   const [score, setScore] = useState({ x: 0, o: 0 });
+  const [endClick, setEndClicki] = useState(false);
 
   useEffect(() => {
     if (checkWin()) {
@@ -15,18 +16,24 @@ function App() {
       );
     }
     setIsX(!isX);
+
     document.body.addEventListener("keydown", handleKeyDown);
     document.body.addEventListener("click", handleKeyDown);
     return () => {
       document.body.removeEventListener("keydown", handleKeyDown);
       document.body.removeEventListener("click", handleKeyDown);
     };
-  }, [board]);
+  }, [board, endClick]);
 
   const handleKeyDown = () => {
     console.log(board);
+
     if (checkWin() || board.every((x) => x !== null)) {
+      setEndClicki(true);
+    }
+    if (endClick) {
       setBoard(Array(9).fill(null));
+      setEndClicki(false);
     }
   };
 
