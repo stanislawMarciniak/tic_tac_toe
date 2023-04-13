@@ -41,11 +41,16 @@ function App() {
     setIsX(!isX);
   };
 
+  const handleReset = () => {
+    setBoard(Array(9).fill(null));
+    setScore({ x: 0, o: 0 });
+  };
+
   return (
     <div className="App">
       <Scores score={score} isX={isX} />
       <Board board={board} onClick={handleClick} />
-      <button className="reset" onClick={() => setBoard(Array(9).fill(null))}>
+      <button className="reset" onClick={handleReset}>
         Reset
       </button>
     </div>
