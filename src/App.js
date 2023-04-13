@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Board from "./components/Board";
 import Scores from "./components/Scores";
 import "./App.css";
 
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [isX, setIsX] = useState(true);
+  const [isX, setIsX] = useState(false);
   const [score, setScore] = useState({ x: 0, o: 0 });
+
+  useEffect(() => {
+    if (checkWin()) {
+      setScore(
+        isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
+      );
+      setBoard(Array(9).fill(null));
+    }
+    handleDraw();
+    setIsX(!isX);
+  }, [board]);
 
   const WIN_CONDITION = [
     [0, 1, 2],
@@ -28,24 +39,28 @@ function App() {
     return false;
   };
 
-  const handleClick = (id) => {
-    let value = isX ? "X" : "O";
-    const clicked = board.map((n, index) => (index === id ? value : n));
-    setBoard(clicked);
-    if (checkWin()) {
-      setScore(
-        !isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
-      );
+  const handleDraw = () => {
+    if (!checkWin() && board.every((x) => x !== null)) {
       setBoard(Array(9).fill(null));
     }
-    setIsX(!isX);
+  };
+
+  const handleClick = (id) => {
+    let value = isX ? "X" : "O";
+    const afterClicked = board.map((n, index) => (index === id ? value : n));
+    setBoard(afterClicked);
+  };
+
+  const handleReset = () => {
+    setBoard(Array(9).fill(null));
+    setScore({ x: 0, o: 0 });
   };
 
   return (
     <div className="App">
       <Scores score={score} isX={isX} />
       <Board board={board} onClick={handleClick} />
-      <button className="reset" onClick={() => setBoard(Array(9).fill(null))}>
+      <button className="reset" onClick={handleReset}>
         Reset
       </button>
     </div>
