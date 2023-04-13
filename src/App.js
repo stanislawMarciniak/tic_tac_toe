@@ -13,11 +13,22 @@ function App() {
       setScore(
         isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
       );
+    }
+    setIsX(!isX);
+    document.body.addEventListener("keydown", handleKeyDown);
+    document.body.addEventListener("click", handleKeyDown);
+    return () => {
+      document.body.removeEventListener("keydown", handleKeyDown);
+      document.body.removeEventListener("click", handleKeyDown);
+    };
+  }, [board]);
+
+  const handleKeyDown = () => {
+    console.log(board);
+    if (checkWin() || board.every((x) => x !== null)) {
       setBoard(Array(9).fill(null));
     }
-    handleDraw();
-    setIsX(!isX);
-  }, [board]);
+  };
 
   const WIN_CONDITION = [
     [0, 1, 2],
@@ -37,12 +48,6 @@ function App() {
         return true;
     }
     return false;
-  };
-
-  const handleDraw = () => {
-    if (!checkWin() && board.every((x) => x !== null)) {
-      setBoard(Array(9).fill(null));
-    }
   };
 
   const handleClick = (id) => {
