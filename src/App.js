@@ -1,12 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Board from "./components/Board";
 import Scores from "./components/Scores";
 import "./App.css";
 
 function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [isX, setIsX] = useState(true);
+  const [isX, setIsX] = useState(false);
   const [score, setScore] = useState({ x: 0, o: 0 });
+  const [endClick, setEndClicki] = useState(false);
+
+  useEffect(() => {
+    if (checkWin()) {
+      setScore(
+        isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
+      );
+    }
+    setIsX(!isX);
+
+    document.body.addEventListener("click", handleKeyDown);
+    return () => {
+      document.body.removeEventListener("click", handleKeyDown);
+    };
+  }, [board, endClick]);
+
+  const handleKeyDown = () => {
+    if (checkWin() || board.every((x) => x !== null)) {
+      setEndClicki(true);
+    }
+    if (endClick) {
+      setBoard(Array(9).fill(null));
+      setEndClicki(false);
+    }
+  };
 
   const WIN_CONDITION = [
     [0, 1, 2],
@@ -30,15 +55,13 @@ function App() {
 
   const handleClick = (id) => {
     let value = isX ? "X" : "O";
-    const clicked = board.map((n, index) => (index === id ? value : n));
-    setBoard(clicked);
-    if (checkWin()) {
-      setScore(
-        !isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
-      );
-      setBoard(Array(9).fill(null));
-    }
-    setIsX(!isX);
+    const afterClicked = board.map((n, index) => (index === id ? value : n));
+    setBoard(afterClicked);
+  };
+
+  const handleReset = () => {
+    setBoard(Array(9).fill(null));
+    setScore({ x: 0, o: 0 });
   };
 
   const handleReset = () => {
