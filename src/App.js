@@ -7,15 +7,15 @@ function App() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isX, setIsX] = useState(false);
   const [score, setScore] = useState({ x: 0, o: 0 });
-  const [endClick, setEndClicki] = useState(false);
+  const [endClick, setEndClick] = useState(false);
+  const [isXStarted, setIsXStarted] = useState(true);
 
   useEffect(() => {
-    if (checkWin()) {
+    if (checkWin() && !endClick) {
       setScore(
         isX ? { ...score, x: score.x + 1 } : { ...score, o: score.o + 1 }
       );
-    }
-    setIsX(!isX);
+    } else setIsX(!isX);
 
     document.body.addEventListener("click", handleKeyDown);
     return () => {
@@ -25,11 +25,14 @@ function App() {
 
   const handleKeyDown = () => {
     if (checkWin() || board.every((x) => x !== null)) {
-      setEndClicki(true);
+      setEndClick(true);
     }
     if (endClick) {
       setBoard(Array(9).fill(null));
-      setEndClicki(false);
+      setEndClick(false);
+      setIsX(isXStarted);
+
+      setIsXStarted(!isXStarted);
     }
   };
 
@@ -62,11 +65,8 @@ function App() {
   const handleReset = () => {
     setBoard(Array(9).fill(null));
     setScore({ x: 0, o: 0 });
-  };
-
-  const handleReset = () => {
-    setBoard(Array(9).fill(null));
-    setScore({ x: 0, o: 0 });
+    setIsX(false);
+    setIsXStarted(true);
   };
 
   return (
